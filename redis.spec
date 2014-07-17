@@ -114,7 +114,7 @@ sed -i -e 's|$(CFLAGS)|%{optflags}|g' deps/linenoise/Makefile
 sed -i -e 's|$(LDFLAGS)|%{?__global_ldflags}|g' deps/linenoise/Makefile
 
 %build
-%make_build \
+make %{?_smp_mflags} \
     DEBUG="" \
     LDFLAGS="%{?__global_ldflags}" \
     CFLAGS+="%{optflags}" \
