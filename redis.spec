@@ -3,18 +3,18 @@
 %global with_perftools 0
 
 # Prior to redis 2.8 sentinel didn't work correctly.
-%if 0%{?fedora} >= 21 || 0%{?el} >= 7
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
 %global with_sentinel 1
 %endif
 
-%if 0%{?fedora} >= 15 || 0%{?el} >= 7
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %global with_systemd 1
 %else
 %global with_systemd 0
 %endif
 
 # tcl 8.4 in EL5.
-%if 0%{?el} && 0%{?el} <= 5
+%if 0%{?el5}
 %global with_tests 0
 %else
 %global with_tests 1
@@ -22,7 +22,7 @@
 
 Name:              redis
 Version:           2.8.13
-Release:           1%{?dist}
+Release:           2%{?dist}
 Summary:           A persistent caching system, key-value and data structures database
 License:           BSD
 URL:               http://redis.io
@@ -247,6 +247,10 @@ fi
 %endif
 
 %changelog
+* Wed Jul 23 2014 Warren Togami <warren@slickage.com> - 2.8.13-2
+- Fix detection of EL7: systemd unit was missing
+- Fix detection of EL5
+
 * Wed Jul 16 2014 Christopher Meng <rpm@cicku.me> - 2.8.13-1
 - Update to 2.8.13
 
