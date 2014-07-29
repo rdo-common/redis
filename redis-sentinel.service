@@ -3,7 +3,6 @@ Description=Redis Sentinel
 After=network.target
 
 [Service]
-ExecStartPre=/usr/bin/mkdir -p /var/lib/redis
 ExecStart=/usr/bin/redis-sentinel /etc/sentinel.conf
 ExecStop=/usr/bin/redis-cli shutdown
 User=redis

@@ -8,11 +8,10 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-NAME="redis-server"
-EXEC="/usr/bin/$NAME"
+name="redis-server"
+exec="/usr/sbin/$name"
+pidfile="/var/run/redis/redis.pid"
 REDIS_CONFIG="/etc/redis.conf"
-RUNDIR="/var/run/redis"
-PIDFILE="$RUNDIR/redis.pid"
 
 [ -e /etc/sysconfig/redis ] && . /etc/sysconfig/redis
 
@@ -20,13 +19,9 @@ lockfile=/var/lock/subsys/redis
 
 start() {
     [ -f $REDIS_CONFIG ] || exit 6
-    [ -x $EXEC ] || exit 5
-    echo -n $"Starting $NAME: "
-    mkdir -p $RUNDIR
-    touch $PIDFILE
-    chown redis:redis $RUNDIR $PIDFILE
-    chmod 750 $RUNDIR
-    daemon --user ${REDIS_USER-redis} "$EXEC $REDIS_CONFIG"
+    [ -x $exec ] || exit 5
+    echo -n $"Starting $name: "
+    daemon --user ${REDIS_USER-redis} "$exec $REDIS_CONFIG"
     retval=$?
     echo
     [ $retval -eq 0 ] && touch $lockfile
@@ -34,8 +29,8 @@ start() {
 }
 
 stop() {
-    echo -n $"Stopping $NAME: "
-    killproc -p $PIDFILE $NAME
+    echo -n $"Stopping $name: "
+    killproc -p $pidfile $name
     retval=$?
     echo
     [ $retval -eq 0 ] && rm -f $lockfile
@@ -52,7 +47,7 @@ reload() {
 }
 
 rh_status() {
-    status -p $PIDFILE $NAME
+    status -p $pidfile $name
 }
 
 rh_status_q() {
