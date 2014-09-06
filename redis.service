@@ -3,7 +3,7 @@ Description=Redis persistent key-value database
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/redis-server /etc/redis.conf
+ExecStart=/usr/bin/redis-server /etc/redis.conf --daemonize no
 User=redis
 Group=redis
 
