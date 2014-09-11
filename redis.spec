@@ -23,8 +23,8 @@
 %endif
 
 Name:              redis
-Version:           2.8.13
-Release:           3%{?dist}
+Version:           2.8.14
+Release:           1%{?dist}
 Summary:           A persistent caching system, key-value and data structures database
 License:           BSD
 URL:               http://redis.io
@@ -249,6 +249,11 @@ fi
 %endif
 
 %changelog
+* Thu Sep 11 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.14-1
+- Upstream 2.8.14
+- Bugfix for lua scripting users (server crash)
+- Refresh patches
+
 * Tue Jul 29 2014 Warren Togami <warren@slickage.com> - 2.8.13-3
 - Revert rename redis.service to redis-server (4 years as packaged service name).
 - Revert "daemonize yes" in default redis.conf
