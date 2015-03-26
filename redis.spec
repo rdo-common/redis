@@ -12,7 +12,7 @@
 
 Name:              redis
 Version:           2.8.19
-Release:           1%{?dist}
+Release:           2%{?dist}
 Summary:           A persistent key-value database
 License:           BSD
 URL:               http://redis.io
@@ -241,6 +241,9 @@ fi
 %endif
 
 %changelog
+* Thu Mar 26 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.19-2
+- Fix redis-shutdown on multiple NIC setup (RHBZ #1201237)
+
 * Thu Feb 26 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.19-1
 - Upstream 2.8.19 (RHBZ #1175232)
 - Fix permissions (RHBZ #1182913)
