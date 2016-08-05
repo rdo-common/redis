@@ -11,8 +11,8 @@
 %global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
 
 Name:              redis
-Version:           2.8.19
-Release:           2%{?dist}
+Version:           3.2.3
+Release:           1%{?dist}
 Summary:           A persistent key-value database
 License:           BSD
 URL:               http://redis.io
@@ -32,8 +32,8 @@ Source9:           %{name}-limit-init
 # Then refresh your patches
 # git format-patch HEAD~<number of expected patches>
 # Update configuration for Fedora
-Patch0001:            0001-redis-2.8.18-redis-conf.patch
-Patch0002:            0002-redis-2.8.18-deps-library-fPIC-performance-tuning.patch
+Patch0001:            0001-redis-3.2.3-redis-conf.patch
+Patch0002:            0002-redis-3.2.3-deps-library-fPIC-performance-tuning.patch
 Patch0003:            0003-redis-2.8.18-use-system-jemalloc.patch
 # tests/integration/replication-psync.tcl failed on slow machines(GITHUB #1417)
 Patch0004:            0004-redis-2.8.18-disable-test-failed-on-slow-machine.patch
@@ -198,10 +198,11 @@ chkconfig --add %{name}-sentinel
 %systemd_preun %{name}-sentinel.service
 %else
 if [ $1 -eq 0 ] ; then
-service %{name} stop &> /dev/null
-chkconfig --del %{name} &> /dev/null
-service %{name}-sentinel stop &> /dev/null
-chkconfig --del %{name}-sentinel &> /dev/null
+    service %{name} stop &> /dev/null
+    chkconfig --del %{name} &> /dev/null
+    service %{name}-sentinel stop &> /dev/null
+    chkconfig --del %{name}-sentinel &> /dev/null
+fi
 %endif
 
 %postun
@@ -218,7 +219,7 @@ fi
 %files
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README
+%doc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README.md
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(0644, redis, root) %config(noreplace) %{_sysconfdir}/%{name}.conf
 %attr(0644, redis, root) %config(noreplace) %{_sysconfdir}/%{name}-sentinel.conf
@@ -240,19 +241,72 @@ fi
 %config(noreplace) %{_sysconfdir}/security/limits.d/95-%{name}.conf
 %endif
 
+
 %changelog
+* Thu Aug  4 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 3.2.3-1
+- Upstream 3.2.3
+- Security fix for CVE-2013-7458 (redis-cli history world readable)
+- RHBZ#1363670 RHBZ#1363671
+
+* Mon Feb  8 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 3.0.6-3
+- Fix redis-shutdown to handle password-protected instances shutdown
+
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Sat Dec 19 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 3.0.6-1
+- Upstream 3.0.6 (RHBZ#1272281)
+
+* Fri Oct 16 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 3.0.5-1
+- Upstream 3.0.5
+- Fix slave/master replication hanging forever in certain case
+
+* Mon Sep 07 2015 Christopher Meng <rpm@cicku.me> - 3.0.4-1
+- Update to 3.0.4
+
+* Sun Aug 30 2015 Christopher Meng <rpm@cicku.me> - 3.0.3-2
+- Rebuilt for jemalloc 4.0.0
+
+* Tue Jul 21 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 3.0.3-1
+- Upstream 3.0.3
+
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Thu Jun 04 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 3.0.2-1
+- Upstream 3.0.2 (RHBZ #1228245)
+- Fix Lua sandbox escape and arbitrary code execution (RHBZ #1228331)
+
+* Sat May 09 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 3.0.1-1
+- Upstream 3.0.1 (RHBZ #1208322)
+
+* Tue Apr 14 2015 Remi Collet <remi@fedoraproject.org> - 3.0.0-2
+- rotate /var/log/redis/sentinel.log
+
+* Thu Apr  2 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 3.0.0-1
+- Upstream 3.0.0 (RHBZ #1208322)
+
 * Thu Mar 26 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.19-2
 - Fix redis-shutdown on multiple NIC setup (RHBZ #1201237)
 
-* Thu Feb 26 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.19-1
+* Fri Feb 27 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.19-1
 - Upstream 2.8.19 (RHBZ #1175232)
-- Fix permissions (RHBZ #1182913)
-- Add limits config file
+- Fix permissions for tmpfiles (RHBZ #1182913)
+- Add limits config files
 - Spec cleanups
 
-* Tue Dec 09 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.18-1
+* Fri Dec 05 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.18-1
 - Upstream 2.8.18
-- Backport init scripts fixes from rawhide
+- Rebased patches
+
+* Sat Sep 20 2014 Remi Collet <remi@fedoraproject.org> - 2.8.17-1
+- Upstream 2.8.17
+- fix redis-sentinel service unit file for systemd
+- fix redis-shutdown for sentinel
+- also use redis-shutdown in init scripts
+
+* Wed Sep 17 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.15-2
+- Minor fix to redis-shutdown (from Remi Collet)
 
 * Sat Sep 13 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.15-1
 - Upstream 2.8.15 (critical bugfix for sentinel)
@@ -265,25 +319,10 @@ fi
 - Backport fixes from Remi Collet repository (ie: sentinel working)
 
 * Thu Sep 11 2014 Haïkel Guémar <hguemar@fedoraproject.org> - 2.8.14-1
-- Upstream 2.8.14
+- Upstream 2.8.14 (RHBZ #1136287)
 - Bugfix for lua scripting users (server crash)
 - Refresh patches
-
-* Tue Jul 29 2014 Warren Togami <warren@slickage.com> - 2.8.13-3
-- Revert rename redis.service to redis-server (4 years as packaged service name).
-- Revert "daemonize yes" in default redis.conf
-  systemd handles background and process tracking on its own, this broke systemd launch.
-- Revert redis.init as it too handled daemonizing.
-- Revert tcp-keepalive default to 0.
-- Revert ExecStartPre hack, /var/lib/redis is owned by the package.
-  No %ghost directories, just own it.
-- FIXME: sentinel is broken, mispackaged and quite possibly belongs in an entirely separate package
-  because it is not meant to be used concurrently with the ordinary systemd redis and it requires
-  a highly specialized custom configuration.
-
-* Wed Jul 23 2014 Warren Togami <warren@slickage.com> - 2.8.13-2
-- Fix detection of EL7: systemd unit was missing
-- Fix detection of EL5
+- backport spec from EPEL7 (thanks Warren)
 
 * Wed Jul 16 2014 Christopher Meng <rpm@cicku.me> - 2.8.13-1
 - Update to 2.8.13
