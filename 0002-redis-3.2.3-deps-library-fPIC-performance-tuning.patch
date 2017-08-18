@@ -1,7 +1,7 @@
-From 0a7d1df14b256dc77249f8d5d0d483b1b4a6c97d Mon Sep 17 00:00:00 2001
+From efdb3b41171d335511af511b0a0cdf43cde2144a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Ha=C3=AFkel=20Gu=C3=A9mar?= <hguemar@fedoraproject.org>
 Date: Mon, 8 Dec 2014 10:02:54 +0100
-Subject: [PATCH 2/5] redis 3.2.3: deps library fPIC performance tuning
+Subject: [PATCH 2/7] redis 3.2.3: deps library fPIC performance tuning
 
 ---
  deps/Makefile             | 2 +-
@@ -49,5 +49,5 @@ index 1dd894b..712f2a6 100644
  DEBUG= -g
  
 -- 
-2.9.0
+2.9.3
 
