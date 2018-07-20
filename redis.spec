@@ -17,7 +17,7 @@
 %global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
 
 Name:              redis
-Version:           3.2.11
+Version:           3.2.12
 Release:           1%{?dist}
 Summary:           A persistent key-value database
 License:           BSD
@@ -270,6 +270,13 @@ fi
 
 
 %changelog
+* Fri Jul 20 2018 Nathan Scott <nathans@redhat.com> - 3.2.12-1
+- Upstream 3.2.12 security fix release.
+- Fixes CVE-2017-15047: Lack clusterLoadConfig input validation (RHBZ #1499153)
+- Fixes CVE-2018-11218: Heap corruption in lua_cmsgpack.c (RHBZ #1591537)
+- Fixes CVE-2018-11219: Integer overflow in lua_struct.c b_unpack (RHBZ #1591538)
+- Fixes CVE-2018-12326: code execution via a crafted command line (RHBZ #1594294)
+
 * Tue Sep 26 2017 Nathan Scott <nathans@redhat.com> - 3.2.11-1
 - Upstream 3.2.11 bug-fix-only release
 - Switch to using Type=notify for Redis systemd services (RHBZ #1172841)
