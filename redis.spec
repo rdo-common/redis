@@ -18,7 +18,7 @@
 
 Name:              redis
 Version:           3.2.12
-Release:           1%{?dist}
+Release:           2%{?dist}
 Summary:           A persistent key-value database
 License:           BSD
 URL:               http://redis.io
@@ -270,6 +270,9 @@ fi
 
 
 %changelog
+* Fri Oct 26 2018 Nathan Scott <nathans@redhat.com> - 3.2.12-2
+- Update network ordering in systemd service unit files (RHBZ #1636208)
+
 * Fri Jul 20 2018 Nathan Scott <nathans@redhat.com> - 3.2.12-1
 - Upstream 3.2.12 security fix release.
 - Fixes CVE-2017-15047: Lack clusterLoadConfig input validation (RHBZ #1499153)
