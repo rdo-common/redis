@@ -17,8 +17,8 @@
 %global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
 
 Name:              redis
-Version:           3.2.12
-Release:           2%{?dist}
+Version:           3.2.13
+Release:           1%{?dist}
 Summary:           A persistent key-value database
 License:           BSD
 URL:               http://redis.io
@@ -270,6 +270,9 @@ fi
 
 
 %changelog
+* Fri Mar 22 2019 Carl George <carl@george.computer> - 3.2.13-1
+- Latest upstream
+
 * Fri Oct 26 2018 Nathan Scott <nathans@redhat.com> - 3.2.12-2
 - Update network ordering in systemd service unit files (RHBZ #1636208)
 
