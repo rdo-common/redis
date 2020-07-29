@@ -2,7 +2,9 @@
 %global with_perftools 0
 
 %if 0%{?fedora} >= 19 || 0%{?rhel} >= 7
-%global with_redistrib 1
+# Remove redis-trib cluster management for RDO as it's not used and adds new
+# requirements
+%global with_redistrib 0
 %else
 %global with_redistrib 0
 %endif
@@ -18,7 +20,7 @@
 
 Name:              redis
 Version:           3.2.13
-Release:           1%{?dist}
+Release:           2%{?dist}
 Summary:           A persistent key-value database
 License:           BSD
 URL:               http://redis.io
@@ -270,6 +272,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Alfredo Moralejo <amoralej@redhat.com> - 3.2.13-2
+- Remove redis-trib utility in RDO build
+
 * Fri Mar 22 2019 Carl George <carl@george.computer> - 3.2.13-1
 - Latest upstream
 
